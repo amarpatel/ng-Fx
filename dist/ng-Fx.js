@@ -113,6 +113,7 @@
         options.motion = 'move';
         options.animation = fx_type;
         options.timeoutKey = timeoutKey;
+        inEffect.ease = options.ease.easeOut;
         Assist.addTimer(options, element, done);
         TweenMax.set(element, outEffect);
         TweenMax.to(element, options.duration, inEffect);
@@ -132,6 +133,7 @@
           options.motion = 'addClass';
           options.animation = fx_type;
           options.timeoutKey = timeoutKey;
+          outEffectLeave.ease = options.ease.easeOut;
           Assist.addTimer(options, element, done);
           TweenMax.to(element, options.duration, outEffectLeave);
           return function (canceled){
@@ -153,6 +155,7 @@
           options.motion = 'removeClass';
           options.animation = fx_type;
           options.timeoutKey = timeoutKey;
+          inEffect.ease = options.ease.easeOut;
           TweenMax.set(element, outEffect);
           TweenMax.to(element, options.duration, inEffect);
           return function (canceled){
@@ -180,11 +183,13 @@
           timeoutKey  = '$$fxTimer';
 
       this.enter = function(element, done){
-        var options = Assist.parseClassList(element);
-        options.motion = 'enter';
-        options.animation = fx_type;
-        options.timeoutKey = timeoutKey;
-        options.stagger = true;
+        var options             = Assist.parseClassList(element);
+            options.motion      = 'enter';
+            options.animation   = fx_type;
+            options.timeoutKey  = timeoutKey;
+            options.stagger     = true;
+
+        end.ease = options.ease.easeOut;
         Assist.addTimer(options, element, done);
         var enter = new TimelineMax();
         enter.to(element, start);
@@ -202,11 +207,13 @@
       };
 
       this.leave = function(element, done){
-        var options = Assist.parseClassList(element);
-        options.motion = 'leave';
-        options.animation = fx_type;
-        options.timeoutKey = timeoutKey;
-        options.stagger = true;
+        var options             = Assist.parseClassList(element);
+            options.motion      = 'leave';
+            options.animation   = fx_type;
+            options.timeoutKey  = timeoutKey;
+            options.stagger     = true;
+
+        start.ease = options.easeIn;
         Assist.addTimer(options, element, done);
         var leave = new TimelineMax();
         leave.to(element, end);
@@ -224,11 +231,13 @@
       };
 
       this.move = function(element, done){
-        var options = Assist.parseClassList(element);
-        options.motion = 'leave';
-        options.animation = fx_type;
-        options.timeoutKey = timeoutKey;
-        options.stagger = true;
+        var options             = Assist.parseClassList(element);
+            options.motion      = 'leave';
+            options.animation   = fx_type;
+            options.timeoutKey  = timeoutKey;
+            options.stagger     = true;
+
+        end.ease = options.ease.easeOut;
         Assist.addTimer(options, element, done);
         var move = new TimelineMax();
         move.to(element, start);
@@ -247,10 +256,12 @@
 
       this.addClass = function(element, className, done){
         if(className === 'ng-hide'){
-          var options = Assist.parseClassList(element);
-          options.motion = 'addClass';
-          options.animation = fx_type;
-          options.timeoutKey = timeoutKey;
+          var options             = Assist.parseClassList(element);
+              options.motion      = 'addClass';
+              options.animation   = fx_type;
+              options.timeoutKey  = timeoutKey;
+
+          start.ease = options.ease.easeIn;
           Assist.addTimer(options, element, done);
           var bac = new TimelineMax();
           bac.to(element, end);
@@ -272,10 +283,12 @@
 
       this.removeClass = function(element, className, done){
         if(className === 'ng-hide'){
-          var options = Assist.parseClassList(element);
-          options.motion = 'removeClass';
-          options.animation = fx_type;
-          options.timeoutKey = timeoutKey;
+          var options             = Assist.parseClassList(element);
+              options.motion      = 'removeClass';
+              options.animation   = fx_type;
+              options.timeoutKey  = timeoutKey;
+
+          end.ease = options.ease.easeOut;
           var rc = new TimelineMax();
           rc.to(element, start);
           rc.to(element, options.duration, mid);
@@ -298,18 +311,19 @@
 
   .factory('RotateAnimation', ['$timeout', '$window', 'Assist', function ($timeout, $window, Assist){
     return function (effect){
-      var start         = effect.start,
-            end         = effect.end,
-            leaveEnd    = effect.inverse,
-            fx_type     = effect.animation,
-            timeoutKey  = '$$fxTimer';
+      var start       = effect.start,
+          end         = effect.end,
+          leaveEnd    = effect.inverse,
+          fx_type     = effect.animation,
+          timeoutKey  = '$$fxTimer';
 
       this.enter = function(element, done){
-        var options = Assist.parseClassList(element);
-            options.motion = 'enter';
-            options.animation = fx_type;
-            options.timeoutKey = timeoutKey;
+        var options             = Assist.parseClassList(element);
+            options.motion      = 'enter';
+            options.animation   = fx_type;
+            options.timeoutKey  = timeoutKey;
 
+        end.ease = options.ease.easeOut;
         Assist.addTimer(options, element, done);
         TweenMax.set(element, start);
         TweenMax.to(element, options.duration, end);
@@ -324,11 +338,12 @@
       };
 
       this.leave = function(element, done){
-        var options = Assist.parseClassList(element);
-            options.motion = 'leave';
-            options.animation = fx_type;
-            options.timeoutKey = timeoutKey;
+        var options             = Assist.parseClassList(element);
+            options.motion      = 'leave';
+            options.animation   = fx_type;
+            options.timeoutKey  = timeoutKey;
 
+        leaveEnd.ease = options.ease.easeIn;
         Assist.addTimer(options, element, done);
         TweenMax.set(element, end);
         TweenMax.to(element, options.duration, leaveEnd);
@@ -348,6 +363,7 @@
             options.animation = fx_type;
             options.timeoutKey = timeoutKey;
 
+        start.ease = options.ease.easeOut;
         Assist.addTimer(options, element, done);
         TweenMax.set(element, end);
         TweenMax.to(element, start);
@@ -363,10 +379,12 @@
 
       this.addClass = function(element, className, done){
         if(className === 'ng-hide'){
-          var options = Assist.parseClassList(element);
-          options.motion = 'addClass';
-          options.animation = fx_type;
-          options.timeoutKey = timeoutKey;
+          var options             = Assist.parseClassList(element);
+              options.motion      = 'addClass';
+              options.animation   = fx_type;
+              options.timeoutKey  = timeoutKey;
+
+          start.ease = options.ease.easeIn;
           Assist.addTimer(options, element, done);
           TweenMax.set(element, end);
           TweenMax.to(element, options.duration, start);
@@ -385,10 +403,12 @@
 
        this.removeClass = function(element, className, done){
         if(className === 'ng-hide'){
-          var options = Assist.parseClassList(element);
-          options.motion = 'addClass';
-          options.animation = fx_type;
-          options.timeoutKey = timeoutKey;
+          var options             = Assist.parseClassList(element);
+              options.motion      = 'addClass';
+              options.animation   = fx_type;
+              options.timeoutKey  = timeoutKey;
+
+          end.ease = options.ease.easeOut;
           Assist.addTimer(options, element, done);
           TweenMax.set(element, start);
           TweenMax.to(element, options.duration, end);
