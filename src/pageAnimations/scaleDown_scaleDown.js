@@ -1,7 +1,8 @@
 angular.module('scaleDown_scaleDown', ['fx.animations.create','ui.route'])
 
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-  
+  $stateProvider
+    .state()
 }])
 
 
